@@ -1,0 +1,5 @@
+Baixe o .jar contido dentro da pasta em um diretório de sua preferência.
+Feito isso, no projeto no NetBeans, clique com o botão direito em "Biblicotecas" e vá em Adicionar Jar/Pasta.
+Procure pelo jcalendar e o selecione.
+
+Feito isso, os erros relacionados à biblioteca serão resolvidos.

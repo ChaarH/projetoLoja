@@ -1,0 +1,30 @@
+Funcional:
+FEITO - cadastro cliente (cód[rg], nome completo, telefone, e-mail, endereço, compras feitas em seu nome a prazo e parcelas) 
+
+- aviso de quando vencer o tempo de pagamento
+
+FEITO - identificação das roupas (código, cor, tamanho, preço, tipo de peça, gênero, marca)
+
+FEITO - cadastro funcionário (cód, nome completo, telefone, endereço, e-mail, senha, compras que foi feito em seu nome)
+
+- registro de movimentação financeira (aumenta ou diminui dependendo das vendas, compras da loja e dinheiro disponível para compras) 
+
+FEITO - registro de compras (quais peças foram compradas, data da compra, quem vendeu, quem comprou, forma de pagamento)
+
+- emitir nota fiscal da compra
+
+- caixa (mostrar as compras feitas no dia, mês e ano escolhido)
+
+- configurações de login
+
+- Mecanismo de busca de roupas
+
+FEITO - poder editar o cadastro das roupas
+
+- Calcular o atraso nos pagamentos a prazo.
+
+Não funcional:
+FEITO - login (login e senhas cadastrados)
+
+Domínio:
+- registro de movimentação de estoque (aumenta ou diminui dependendo das vendas e compras da loja)
