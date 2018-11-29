@@ -1,5 +1,6 @@
 
 import Controller.ProdutoControlle;
+import Dao.FuncionariosDao;
 import Dao.ProdutoDao;
 import Dao.VendaDao;
 import Model.VendasModel;
@@ -304,7 +305,7 @@ public class NovaVenda extends javax.swing.JFrame {
 
         if(myInt > qtdEstq) {
             JOptionPane.showMessageDialog(null,"A quantidade do produto excede o total em estoque!","Atenção", JOptionPane.WARNING_MESSAGE);
-//            jSpinnerQtdProd.setValue(qtdEstq);
+            jSpinnerQtdProd.setValue(qtdEstq);
         }
         
         int total = (myInt * valorProd);
@@ -318,13 +319,16 @@ public class NovaVenda extends javax.swing.JFrame {
         
         ProdutoControlle ctrl = new ProdutoControlle();
         
-        String spinner = "";
         int qtdProd = (int) jSpinnerQtdProd.getValue();
         int total = (qtdProd * valorProd);
         int valorDesconto = Integer.parseInt(jTextValorDesconto.getText());
-        int res = ctrl.geraDesconto(total, valorDesconto);
-                       
-        jLabelTotal.setText(NumberFormat.getCurrencyInstance().format(res));
+        
+//        if(valorDesconto == null) {
+//            int res = ctrl.geraDesconto(total, valorDesconto);
+//            jLabelTotal.setText(NumberFormat.getCurrencyInstance().format(res));
+//        } else {
+//            jLabelTotal.setText(NumberFormat.getCurrencyInstance().format(total));
+//        }
     }//GEN-LAST:event_jBtnCalcularActionPerformed
 
     private void jBtnFecharVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFecharVendaActionPerformed
@@ -337,12 +341,25 @@ public class NovaVenda extends javax.swing.JFrame {
         String total = jLabelTotal.getText();
 
         total = total.substring(3);
-        total = total.replaceAll(",", ".");
-
+        
+        if(total.length() > 6) {
+            total = total.replaceAll(",", "");
+        } else {
+            total = total.replaceAll(",", ".");
+        }
+        
         double totalVenda = Double.parseDouble(total);
         VendasModel objModel = new VendasModel();
         
+        FuncionariosDao objFunc = new FuncionariosDao();
+        String nomeVendedor = objFunc.nomeUsuario;
+        
+        if("".equals(valorDesconto)) {
+            valorDesconto = 0;
+        }
+        
         objModel.setIdProd(codProd);
+        objModel.setTxtVendedor(nomeVendedor);
         objModel.setQtdProd(qtdProd);
         objModel.setVlrDesc(valorDesconto);
         objModel.setTotal(totalVenda);

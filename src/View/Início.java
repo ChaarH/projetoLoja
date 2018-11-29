@@ -12,6 +12,8 @@ import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -106,7 +108,7 @@ public class Início extends javax.swing.JFrame {
             String nome = rsProd.getString("TXT_NOME_PROD");
             String tamanho = rsProd.getString("TXT_TAMANHO");
             String cor = rsProd.getString("TXT_COR");
-            int preco = rsProd.getInt("INT_PRECO");
+            double preco = rsProd.getInt("INT_PRECO");
             String tipo = rsProd.getString("TXT_TIPO");
             String genero = rsProd.getString("TXT_GENERO");
             String marca = rsProd.getString("TXT_MARCA");
@@ -139,7 +141,7 @@ public class Início extends javax.swing.JFrame {
     public void tabelaProdEstqMin() throws SQLException {  
         DefaultTableModel tabelaEstqProd = (DefaultTableModel) jTableCtrlQtd.getModel();
         tabelaEstqProd.setNumRows(0);
-        
+
         ProdutoDao objQtdEstq = new ProdutoDao();
         ResultSet rsQtdEstq = objQtdEstq.listarQtd();
         
@@ -171,10 +173,12 @@ public class Início extends javax.swing.JFrame {
         
         while(rsVendas.next()) {
             int codProd = rsVendas.getInt("INT_COD_PROD");
+            String nomeVendedor = rsVendas.getString("TXT_VENDEDOR");
             int qtdProd = rsVendas.getInt("INT_QTD_VENDA");
             int vlrDesc = rsVendas.getInt("INT_DESCONTO");
             int total = rsVendas.getInt("INT_TOTAL");
-            tabelaVendas.addRow(new Object[] {codProd,qtdProd,vlrDesc,total});
+            String dataVenda = rsVendas.getString("DAT_DATA_VENDA");
+            tabelaVendas.addRow(new Object[] {codProd,nomeVendedor,qtdProd,vlrDesc,total,dataVenda});
             
             labelTotal += total;
         }
@@ -469,11 +473,11 @@ public class Início extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código Produto", "Quantidade", "Desconto", "Total"
+                "Código Produto", "Vendedor", "Quantidade", "Desconto", "Total", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -514,14 +518,6 @@ public class Início extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabelDataHoje))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(jDateBegin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)
@@ -535,7 +531,15 @@ public class Início extends javax.swing.JFrame {
                                 .addComponent(jLabel12)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(175, 175, 175))))
+                        .addGap(175, 175, 175))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelDataHoje))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,8 +557,8 @@ public class Início extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabelDataHoje))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelTotal)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -570,7 +574,7 @@ public class Início extends javax.swing.JFrame {
                                         .addComponent(jBtnPesquisarEntreDatas)
                                         .addComponent(jDateBegin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Vendas", jPanel1);
@@ -1000,7 +1004,48 @@ public class Início extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1AncestorAdded
 
     private void jBtnPesquisarEntreDatasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarEntreDatasActionPerformed
-
+        Date dataInicio = jDateBegin.getDate();
+        Date dataFim = jDateEnd.getDate();
+        
+        SimpleDateFormat formata = new SimpleDateFormat("dd/MM/yyyy");
+        String dateBegin = formata.format(dataInicio);
+        String dateEnd = formata.format(dataFim);
+        
+        DefaultTableModel tabelaVendas = (DefaultTableModel) jTableVendas.getModel();
+        
+        VendaDao objDao = new VendaDao();
+        ResultSet rsVendasPeriodo = null;
+        try {
+            rsVendasPeriodo = objDao.listar(dateBegin, dateEnd);
+        } catch (SQLException ex) {
+            Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        int labelTotal = 0;
+        tabelaVendas.setNumRows(0);
+        
+        try {
+            while(rsVendasPeriodo.next()) {
+                int codProd = rsVendasPeriodo.getInt("INT_COD_PROD");
+                String nomeVendedor = rsVendasPeriodo.getString("TXT_VENDEDOR");
+                int qtdProd = rsVendasPeriodo.getInt("INT_QTD_VENDA");
+                int vlrDesc = rsVendasPeriodo.getInt("INT_DESCONTO");
+                int total = rsVendasPeriodo.getInt("INT_TOTAL");
+                String dataVenda = rsVendasPeriodo.getString("DAT_DATA_VENDA");
+                tabelaVendas.addRow(new Object[] {codProd,nomeVendedor,qtdProd,vlrDesc,total,dataVenda});
+                
+                labelTotal += total;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        jLabelTotal.setText(NumberFormat.getCurrencyInstance().format(labelTotal));
+        
+        if(tabelaVendas.getRowCount() == 0 ){
+           String msg = "Não há dados nesse período";
+           tabelaVendas.addRow(new Object[]{msg,msg,msg,msg});
+        }
     }//GEN-LAST:event_jBtnPesquisarEntreDatasActionPerformed
 
     private void jTableResultClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultClientesMouseClicked
