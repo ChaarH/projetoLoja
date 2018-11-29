@@ -51,10 +51,13 @@ public class Início extends javax.swing.JFrame {
         this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                int resposta = JOptionPane.showConfirmDialog(null, "Deseja deslogar do sistema?","Sair", JOptionPane.YES_NO_OPTION);
+                if(resposta == JOptionPane.YES_OPTION){
                 dispose();
                 
                 Login log = new Login();
                 log.setVisible(true);
+                }
             }
         });
         
@@ -642,7 +645,7 @@ public class Início extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome Produto", "Cor", "Tamanho", "Preço", "Tipo", "Gênero", "Marca", "Qtd Estoque", "Qtd Mínima Estoque"
+                "Código", "Nome Produto", "Tamanho", "Cor", "Preço", "Tipo", "Gênero", "Marca", "Qtd Estoque", "Qtd Mínima Estoque"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -721,16 +724,12 @@ public class Início extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jRadioButton2)
                             .addComponent(jRadioButton1))))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jScrollPane4))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -771,7 +770,7 @@ public class Início extends javax.swing.JFrame {
                                     .addComponent(jComboBoxTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBoxTipoPeça, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jBtnEditarSelecionadoProd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
