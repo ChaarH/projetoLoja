@@ -28,6 +28,7 @@ public class NovaVenda extends javax.swing.JFrame {
     public NovaVenda() throws SQLException {
         initComponents();
         jSpinnerQtdProd.setEnabled(false);
+        jTextValorDesconto.setEnabled(false);
     }
     
     /**
@@ -359,7 +360,7 @@ public class NovaVenda extends javax.swing.JFrame {
         }
         
         objModel.setIdProd(codProd);
-        objModel.setTxtVendedor(nomeVendedor);
+        //objModel.setTxtVendedor(nomeVendedor);
         objModel.setQtdProd(qtdProd);
         objModel.setVlrDesc(valorDesconto);
         objModel.setTotal(totalVenda);
@@ -378,7 +379,9 @@ public class NovaVenda extends javax.swing.JFrame {
      String aux = jTextCodigo.getText();
         if(aux.equals("")){
             jSpinnerQtdProd.setEnabled(false);
+            jTextValorDesconto.setEnabled(false);
         }else{
+            jTextValorDesconto.setEnabled(true);
             jSpinnerQtdProd.setEnabled(true);
         }
     }//GEN-LAST:event_jTextCodigoKeyReleased
