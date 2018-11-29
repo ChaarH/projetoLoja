@@ -51,14 +51,10 @@ public class Início extends javax.swing.JFrame {
         this.setDefaultCloseOperation(this.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                
-                int resposta = JOptionPane.showConfirmDialog(null, "Deseja Deslogar do sistema?", "Sair", JOptionPane.YES_NO_OPTION);
-                if(resposta == JOptionPane.YES_OPTION){
                 dispose();
                 
                 Login log = new Login();
                 log.setVisible(true);
-                }
             }
         });
         
