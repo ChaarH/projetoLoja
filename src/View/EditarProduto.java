@@ -28,6 +28,7 @@ public class EditarProduto extends javax.swing.JFrame {
      */
     public EditarProduto()  throws SQLException{
         initComponents();
+        
     }
 
     /**
@@ -58,10 +59,10 @@ public class EditarProduto extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         Marca = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        Estoque = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        EstoqueMin = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        Estoque = new javax.swing.JSpinner();
+        EstoqueMin = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -96,6 +97,18 @@ public class EditarProduto extends javax.swing.JFrame {
             }
         });
 
+        Estoque.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                EstoqueStateChanged(evt);
+            }
+        });
+
+        EstoqueMin.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                EstoqueMinStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -119,29 +132,24 @@ public class EditarProduto extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 43, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(Preco, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel11))
-                                        .addComponent(Genero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(EstoqueMin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap())))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 43, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(Preco, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11)
+                                    .addComponent(Estoque, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(EstoqueMin, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Genero, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -185,11 +193,10 @@ public class EditarProduto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(2, 2, 2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Tamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(EstoqueMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,10 +222,10 @@ public class EditarProduto extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
-        setSize(new java.awt.Dimension(561, 526));
+        setSize(new java.awt.Dimension(589, 591));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -227,8 +234,8 @@ public class EditarProduto extends javax.swing.JFrame {
         if(resposta == JOptionPane.YES_OPTION){
             int id = Integer.parseInt(CodProd.getText());
             int preco = Integer.parseInt(Preco.getText());
-            int estoque = Integer.parseInt(Estoque.getText());
-            int estoquemin = Integer.parseInt(EstoqueMin.getText());
+            int estoque = Integer.parseInt(Estoque.getValue().toString());
+            int estoquemin = Integer.parseInt(EstoqueMin.getValue().toString());
 
             ProdutoModel objModel = new ProdutoModel();
 
@@ -245,6 +252,22 @@ public class EditarProduto extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void EstoqueStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_EstoqueStateChanged
+    int estoque = Integer.parseInt(Estoque.getValue().toString());
+        
+        if(estoque < 0){
+            Estoque.setValue(0);
+        }
+        
+    }//GEN-LAST:event_EstoqueStateChanged
+
+    private void EstoqueMinStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_EstoqueMinStateChanged
+    int estoquemin = Integer.parseInt(EstoqueMin.getValue().toString());
+        if(estoquemin < 0){
+            EstoqueMin.setValue(0);
+        }
+    }//GEN-LAST:event_EstoqueMinStateChanged
 
     /**
      * @param args the command line arguments
@@ -288,8 +311,8 @@ public class EditarProduto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField CodProd;
     private javax.swing.JTextField Cor;
-    private javax.swing.JTextField Estoque;
-    private javax.swing.JTextField EstoqueMin;
+    private javax.swing.JSpinner Estoque;
+    private javax.swing.JSpinner EstoqueMin;
     private javax.swing.JTextField Genero;
     private javax.swing.JTextField Marca;
     private javax.swing.JTextField Nome;
@@ -336,8 +359,8 @@ public class EditarProduto extends javax.swing.JFrame {
             Marca.setText(fn.ucFirst(rs.getString("TXT_MARCA")));
             Genero.setText(fn.ucFirst(rs.getString("TXT_GENERO")));
             Preco.setText(String.valueOf((rs.getInt("INT_PRECO"))));
-            Estoque.setText(String.valueOf((rs.getInt("QTD_ESTQ"))));
-            EstoqueMin.setText(String.valueOf((rs.getInt("QTD_MIN_ESTQ"))));
+            Estoque.setValue((rs.getInt("QTD_ESTQ")));
+            EstoqueMin.setValue((rs.getInt("QTD_MIN_ESTQ")));
         }
     }
 
