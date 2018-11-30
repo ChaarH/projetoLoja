@@ -363,12 +363,8 @@ public class NovaVenda extends javax.swing.JFrame {
         FuncionariosDao objFunc = new FuncionariosDao();
         String nomeVendedor = objFunc.nomeUsuario;
         
-        if("".equals(valorDesconto)) {
-            valorDesconto = 0;
-        }
-        
         objModel.setIdProd(codProd);
-        //objModel.setTxtVendedor(nomeVendedor);
+        objModel.setTxtVendedor(nomeVendedor);
         objModel.setQtdProd(qtdProd);
         objModel.setVlrDesc(valorDesconto);
         objModel.setTotal(totalVenda);
