@@ -12,6 +12,7 @@ package Model;
 public class VendasModel {
     
     private int idVenda;
+    private String txtVendedor;
     private int idProd;
     private int qtdProd;
     private int vlrDesc;
@@ -22,6 +23,13 @@ public class VendasModel {
     }
     public int getIdVenda() {
         return this.idVenda;
+    }
+    
+    public void setTxtVendedor(String txtVendedor) {
+        this.txtVendedor = txtVendedor;
+    }
+    public String getTxtVendedor() {
+        return this.txtVendedor;
     }
     
     public void setIdProd(int idProd) {
