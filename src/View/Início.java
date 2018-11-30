@@ -96,6 +96,7 @@ public class Início extends javax.swing.JFrame {
         tabelaProdutos();
         tabelaVendas();
         tabelaProdEstqMin();
+        tabelaUsuarios();
         
     }
     
@@ -193,7 +194,24 @@ public class Início extends javax.swing.JFrame {
            tabelaVendas.addRow(new Object[]{msg,msg,msg,msg});
         }
     }
-   
+    
+    public void tabelaUsuarios() throws SQLException {
+        DefaultTableModel tabelaUsuario = (DefaultTableModel) jTableResultUsuarios.getModel();
+        tabelaUsuario.setNumRows(0);
+        
+        FuncionariosDao objDao = new FuncionariosDao();
+        ResultSet rs = objDao.listar(0);
+        
+        while(rs.next()) {
+            int cod = rs.getInt("ID_USUARIO");
+            String nome = rs.getString("TXT_NOME");
+            String login = rs.getString("TXT_LOGIN");
+            String senha = rs.getString("TXT_SENHA");
+            String tipo = rs.getString("TXT_TIPO");
+            String status = rs.getString("TXT_STATUS");
+            tabelaUsuario.addRow(new Object[]{cod,nome,login,senha,tipo,status});
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -221,6 +239,8 @@ public class Início extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTableResultUsuarios = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton16 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
@@ -413,6 +433,30 @@ public class Início extends javax.swing.JFrame {
 
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/desativar usuario.png"))); // NOI18N
 
+        jTableResultUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Nome", "Login", "Senha", "Tipo", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableResultUsuarios.getTableHeader().setReorderingAllowed(false);
+        jTableResultUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableResultUsuariosMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(jTableResultUsuarios);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -420,21 +464,26 @@ public class Início extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                     .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(731, 731, 731))
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(93, 93, 93))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Usuários", jPanel4);
@@ -671,6 +720,13 @@ public class Início extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTableResultProdutos);
+        if (jTableResultProdutos.getColumnModel().getColumnCount() > 0) {
+            jTableResultProdutos.getColumnModel().getColumn(5).setHeaderValue("Tipo");
+            jTableResultProdutos.getColumnModel().getColumn(6).setHeaderValue("Gênero");
+            jTableResultProdutos.getColumnModel().getColumn(7).setHeaderValue("Marca");
+            jTableResultProdutos.getColumnModel().getColumn(8).setHeaderValue("Qtd Estoque");
+            jTableResultProdutos.getColumnModel().getColumn(9).setHeaderValue("Qtd Mínima Estoque");
+        }
 
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setText("Unissex");
@@ -1103,10 +1159,15 @@ public class Início extends javax.swing.JFrame {
             tabelaProdutos();
             tabelaVendas();
             tabelaProdEstqMin();
+            tabelaUsuarios();
         } catch (SQLException ex) {
             Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jTableResultUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultUsuariosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableResultUsuariosMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1190,11 +1251,13 @@ public class Início extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableCtrlQtd;
     private javax.swing.JTable jTableResultClientes;
     private javax.swing.JTable jTableResultProdutos;
+    private javax.swing.JTable jTableResultUsuarios;
     private javax.swing.JTable jTableVendas;
     private javax.swing.JTextField jTextCodigo;
     private javax.swing.JTextField jTextPesquisa;
