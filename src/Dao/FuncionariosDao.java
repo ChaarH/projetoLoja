@@ -69,4 +69,20 @@ public class FuncionariosDao {
             return false;
         }
     }
+    
+    public ResultSet listar(int id) throws SQLException {
+        
+        Connection con = new Banco().getConnection();
+        
+        String sql = "SELECT * FROM tb_usuarios WHERE TXT_STATUS = 'A' OR TXT_STATUS = 'D'";
+        
+        if(id > 0) {
+            sql += " AND ID_USUARIO = " +id;
+        }
+        
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        return rs;
+    }
 }
