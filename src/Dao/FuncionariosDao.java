@@ -85,4 +85,46 @@ public class FuncionariosDao {
 
         return rs;
     }
+    
+    public void atualizar(FuncionariosModel objModel) throws SQLException {
+        
+        int userid = objModel.getIdFun();
+        String nome = objModel.getNomeFuncionario();
+        String login = objModel.getLogin();
+        String senha = objModel.getSenha();
+        String tipo = objModel.getTipo();
+        
+        
+        Connection con = new Banco().getConnection();
+        
+        String sql = "UPDATE tb_usuarios SET TXT_NOME = (?), TXT_LOGIN = (?), TXT_TIPO = (?), TXT_SENHA = (?) WHERE ID_USUARIO = (?)";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setString(1, nome);
+        stmt.setString(2, login);
+        stmt.setString(3, tipo);
+        stmt.setString(4, senha);
+        stmt.setInt(5, userid);
+        
+        
+        stmt.execute();
+        stmt.close();
+        
+        JOptionPane.showMessageDialog(null,"Alteração realizada com sucesso!!!!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void deletar(int idFun) throws SQLException {
+        
+        Connection con = new Banco().getConnection();
+        
+        String sql = "UPDATE tb_usuarios SET TXT_STATUS = 'D' WHERE ID_USUARIO = (?)";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, idFun);
+        
+        stmt.execute();
+        stmt.close();
+        
+        JOptionPane.showMessageDialog(null,"Dado deletado com sucesso!!!!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
 }
