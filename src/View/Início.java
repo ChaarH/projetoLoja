@@ -7,6 +7,7 @@ import Model.ContatoModel;
 import Model.FuncionariosModel;
 import View.EditarCliente;
 import View.EditarProduto;
+import View.EditarUsuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
@@ -41,6 +42,7 @@ public class Início extends javax.swing.JFrame {
     
     EditarCliente EditarCliente;
     EditarProduto EditarProduto;
+    EditarUsuario EditarUsuario;
     
     Functions fn = new Functions();
    
@@ -70,11 +72,14 @@ public class Início extends javax.swing.JFrame {
         
         EditarCliente = new EditarCliente();
         EditarProduto = new EditarProduto();
+        EditarUsuario = new EditarUsuario();
         
         jBtnEditarSelecionado.setEnabled(false);
         jBtbDeletarCliente.setEnabled(false);
         jBtnEditarSelecionadoProd.setEnabled(false);
         jBtnDeletarProd.setEnabled(false);
+        EditarSelecionadoUser.setEnabled(false);
+        DesativarUser.setEnabled(false);
         
         FuncionariosDao objDaoUser = new FuncionariosDao();
         String tipoUsuario = objDaoUser.tipoUsuario;
@@ -200,15 +205,15 @@ public class Início extends javax.swing.JFrame {
         tabelaUsuario.setNumRows(0);
         
         FuncionariosDao objDao = new FuncionariosDao();
-        ResultSet rs = objDao.listar(0);
+        ResultSet rsFun = objDao.listar(0);
         
-        while(rs.next()) {
-            int cod = rs.getInt("ID_USUARIO");
-            String nome = rs.getString("TXT_NOME");
-            String login = rs.getString("TXT_LOGIN");
-            String senha = rs.getString("TXT_SENHA");
-            String tipo = rs.getString("TXT_TIPO");
-            String status = rs.getString("TXT_STATUS");
+        while(rsFun.next()) {
+            int cod = rsFun.getInt("ID_USUARIO");
+            String nome = rsFun.getString("TXT_NOME");
+            String login = rsFun.getString("TXT_LOGIN");
+            String senha = rsFun.getString("TXT_SENHA");
+            String tipo = rsFun.getString("TXT_TIPO");
+            String status = rsFun.getString("TXT_STATUS");
             tabelaUsuario.addRow(new Object[]{cod,nome,login,senha,tipo,status});
         }
     }
@@ -237,10 +242,11 @@ public class Início extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
+        EditarSelecionadoUser = new javax.swing.JButton();
+        DesativarUser = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableResultUsuarios = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton16 = new javax.swing.JButton();
         jButton17 = new javax.swing.JButton();
@@ -429,9 +435,19 @@ public class Início extends javax.swing.JFrame {
             }
         });
 
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/editar usuario.png"))); // NOI18N
+        EditarSelecionadoUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/editar usuario.png"))); // NOI18N
+        EditarSelecionadoUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarSelecionadoUserActionPerformed(evt);
+            }
+        });
 
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/desativar usuario.png"))); // NOI18N
+        DesativarUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/desativar usuario.png"))); // NOI18N
+        DesativarUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DesativarUserActionPerformed(evt);
+            }
+        });
 
         jTableResultUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -457,33 +473,45 @@ public class Início extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(jTableResultUsuarios);
 
+        jLabel16.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel16.setText("para editar ou deletar clique na tabela");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
-                    .addComponent(jButton13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel16))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DesativarUser, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                            .addComponent(EditarSelecionadoUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(93, 93, 93))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
                         .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(EditarSelecionadoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                        .addComponent(DesativarUser, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Usuários", jPanel4);
@@ -1166,8 +1194,58 @@ public class Início extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jTableResultUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultUsuariosMouseClicked
-        // TODO add your handling code here:
+       EditarSelecionadoUser.setEnabled(true);
+       DesativarUser.setEnabled(true);
     }//GEN-LAST:event_jTableResultUsuariosMouseClicked
+
+    private void EditarSelecionadoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarSelecionadoUserActionPerformed
+    DefaultTableModel tabelaUsuarios = (DefaultTableModel) jTableResultUsuarios.getModel();
+        
+        int row = jTableResultUsuarios.getSelectedRow(); 
+        int userId = (int) tabelaUsuarios.getValueAt(row, 0);
+        
+        try {
+            EditarUsuario.setUUser(userId);
+            EditarUsuario.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_EditarSelecionadoUserActionPerformed
+
+    private void DesativarUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DesativarUserActionPerformed
+        int resposta = JOptionPane.showConfirmDialog(null, "Deseja Desativar o Funcionário selecionado?","Desativar", JOptionPane.YES_NO_OPTION);
+        if(resposta == JOptionPane.YES_OPTION){
+        DefaultTableModel tabelaUser = (DefaultTableModel) jTableResultUsuarios.getModel();
+        
+        int row = jTableResultUsuarios.getSelectedRow(); 
+        int IdFun = (int) tabelaUser.getValueAt(row, 0);
+        
+        FuncionariosDao objDao = new FuncionariosDao();
+        try {
+            objDao.deletar(IdFun);
+            tabelaUser.setNumRows(0); // Limpa toda a tabela existente
+            ResultSet rsFun = objDao.listar(0);
+        
+            ResultSet rs = objDao.listar(0);
+        
+        while(rs.next()) {
+            int cod = rs.getInt("ID_USUARIO");
+            String nome = rs.getString("TXT_NOME");
+            String login = rs.getString("TXT_LOGIN");
+            String senha = rs.getString("TXT_SENHA");
+            String tipo = rs.getString("TXT_TIPO");
+            String status = rs.getString("TXT_STATUS");
+            tabelaUser.addRow(new Object[]{cod,nome,login,senha,tipo,status});
+        }
+        } catch (SQLException ex) {
+            Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        EditarSelecionadoUser.setEnabled(false);
+        DesativarUser.setEnabled(false);
+        }
+        
+        
+    }//GEN-LAST:event_DesativarUserActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1202,6 +1280,8 @@ public class Início extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton DesativarUser;
+    private javax.swing.JButton EditarSelecionadoUser;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBtbDeletarCliente;
     private javax.swing.JButton jBtnDeletarProd;
@@ -1210,8 +1290,6 @@ public class Início extends javax.swing.JFrame {
     private javax.swing.JButton jBtnPesquisaProd;
     private javax.swing.JButton jBtnPesquisarEntreDatas;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
@@ -1229,6 +1307,7 @@ public class Início extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
