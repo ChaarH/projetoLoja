@@ -371,11 +371,8 @@ public class Início extends javax.swing.JFrame {
             }
         });
         jTableResultClientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableResultClientesMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTableResultClientesMousePressed(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableResultClientesMouseReleased(evt);
             }
         });
         jScrollPane2.setViewportView(jTableResultClientes);
@@ -467,8 +464,8 @@ public class Início extends javax.swing.JFrame {
         });
         jTableResultUsuarios.getTableHeader().setReorderingAllowed(false);
         jTableResultUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableResultUsuariosMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableResultUsuariosMouseReleased(evt);
             }
         });
         jScrollPane6.setViewportView(jTableResultUsuarios);
@@ -743,8 +740,8 @@ public class Início extends javax.swing.JFrame {
         });
         jTableResultProdutos.getTableHeader().setReorderingAllowed(false);
         jTableResultProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableResultProdutosMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableResultProdutosMouseReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jTableResultProdutos);
@@ -1127,20 +1124,6 @@ public class Início extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBtnPesquisarEntreDatasActionPerformed
 
-    private void jTableResultClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultClientesMouseClicked
-        jBtnEditarSelecionado.setEnabled(true);
-        jBtbDeletarCliente.setEnabled(true);
-    }//GEN-LAST:event_jTableResultClientesMouseClicked
-
-    private void jTableResultProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultProdutosMouseClicked
-        jBtnEditarSelecionadoProd.setEnabled(true);
-        jBtnDeletarProd.setEnabled(true);
-    }//GEN-LAST:event_jTableResultProdutosMouseClicked
-
-    private void jTableResultClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultClientesMousePressed
-              // TODO add your handling code here:
-    }//GEN-LAST:event_jTableResultClientesMousePressed
-
     private void jBtnEditarSelecionadoProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarSelecionadoProdActionPerformed
         DefaultTableModel tabelaProdutos = (DefaultTableModel) jTableResultProdutos.getModel();
         
@@ -1182,6 +1165,12 @@ public class Início extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextPesquisaKeyReleased
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        jBtnEditarSelecionado.setEnabled(false);
+        jBtbDeletarCliente.setEnabled(false);
+        jBtnEditarSelecionadoProd.setEnabled(false);
+        jBtnDeletarProd.setEnabled(false);
+        EditarSelecionadoUser.setEnabled(false);
+        DesativarUser.setEnabled(false);
         try {
             tabelaClientes();
             tabelaProdutos();
@@ -1192,11 +1181,6 @@ public class Início extends javax.swing.JFrame {
             Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
-
-    private void jTableResultUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultUsuariosMouseClicked
-       EditarSelecionadoUser.setEnabled(true);
-       DesativarUser.setEnabled(true);
-    }//GEN-LAST:event_jTableResultUsuariosMouseClicked
 
     private void EditarSelecionadoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarSelecionadoUserActionPerformed
     DefaultTableModel tabelaUsuarios = (DefaultTableModel) jTableResultUsuarios.getModel();
@@ -1246,6 +1230,21 @@ public class Início extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_DesativarUserActionPerformed
+
+    private void jTableResultUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultUsuariosMouseReleased
+        EditarSelecionadoUser.setEnabled(true);
+        DesativarUser.setEnabled(true);
+    }//GEN-LAST:event_jTableResultUsuariosMouseReleased
+
+    private void jTableResultProdutosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultProdutosMouseReleased
+        jBtnEditarSelecionadoProd.setEnabled(true);
+        jBtnDeletarProd.setEnabled(true);
+    }//GEN-LAST:event_jTableResultProdutosMouseReleased
+
+    private void jTableResultClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableResultClientesMouseReleased
+       jBtnEditarSelecionado.setEnabled(true);
+       jBtbDeletarCliente.setEnabled(true);
+    }//GEN-LAST:event_jTableResultClientesMouseReleased
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
