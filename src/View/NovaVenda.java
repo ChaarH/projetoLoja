@@ -182,7 +182,7 @@ public class NovaVenda extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jBtnFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)))
+                                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)))
                                 .addGap(14, 14, 14)
                                 .addComponent(jBtnFecharVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12)))
@@ -250,17 +250,14 @@ public class NovaVenda extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(38, 38, 38))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(1103, 795));
+        setSize(new java.awt.Dimension(1137, 795));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -354,7 +351,7 @@ public class NovaVenda extends javax.swing.JFrame {
 
     private void jBtnFecharVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFecharVendaActionPerformed
         DefaultTableModel tabelaProdutos = (DefaultTableModel) jTableResultProdutos.getModel();
-        
+
         int qtdInEstq = (int) tabelaProdutos.getValueAt(0, 8);
         int codProd = (int) tabelaProdutos.getValueAt(0, 0);
         int qtdProd = (int) jSpinnerQtdProd.getValue();
@@ -362,33 +359,38 @@ public class NovaVenda extends javax.swing.JFrame {
         String total = jLabelTotal.getText();
 
         total = total.substring(3);
-        
-        if(total.length() > 6) {
+
+        if (total.length() > 6) {
             total = total.replaceAll(",", "");
+            total = total.substring(0, total.length() - 3);
         } else {
             total = total.replaceAll(",", ".");
         }
-        
+
+        System.out.println("Valor: " + total);
         double totalVenda = Double.parseDouble(total);
+//        formatar.format(totalVenda);
         VendasModel objModel = new VendasModel();
-        
+
         FuncionariosDao objFunc = new FuncionariosDao();
         String nomeVendedor = objFunc.nomeUsuario;
-        
+
         objModel.setIdProd(codProd);
         objModel.setTxtVendedor(nomeVendedor);
         objModel.setQtdProd(qtdProd);
         objModel.setVlrDesc(valorDesconto);
         objModel.setTotal(totalVenda);
-        
+
         VendaDao objDao = new VendaDao();
         ProdutoDao objProdDao = new ProdutoDao();
         try {
             objDao.salvar(objModel);
-            objProdDao.atualizaEstq(qtdInEstq, qtdProd, codProd);
+            objProdDao.atualizaEstq("VENDA", qtdInEstq, qtdProd, codProd, 0);
         } catch (SQLException ex) {
             Logger.getLogger(NovaVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+
     }//GEN-LAST:event_jBtnFecharVendaActionPerformed
 
     private void jTextCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextCodigoKeyReleased
