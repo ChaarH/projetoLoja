@@ -392,7 +392,44 @@ public class NovaVenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnFecharVendaActionPerformed
 
     private void jTextCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextCodigoKeyReleased
-     String aux = jTextCodigo.getText();
+      jSpinnerQtdProd.setValue(1);
+        try {
+            int codProdVenda = Integer.parseInt(jTextCodigo.getText());
+            //int qtdEstq = (int) jSpinnerQtdProd.getValue();
+            
+            DefaultTableModel tabelaProdutos = (DefaultTableModel) jTableResultProdutos.getModel();
+            tabelaProdutos.setNumRows(0);
+            
+            Functions fn = new Functions();
+            
+            ProdutoDao objDaoProd = new ProdutoDao();
+            ResultSet rsProd = objDaoProd.listar(codProdVenda);
+            
+            while(rsProd.next()) {
+                int cod = rsProd.getInt("ID_PRODUTO");
+                String nome = fn.ucFirst(rsProd.getString("TXT_NOME_PROD"));
+                String tamanho = fn.ucFirst(rsProd.getString("TXT_TAMANHO"));
+                String cor = fn.ucFirst(rsProd.getString("TXT_COR"));
+                int preco = rsProd.getInt("INT_PRECO");
+                String tipo = fn.ucFirst(rsProd.getString("TXT_TIPO"));
+                String genero = fn.ucFirst(rsProd.getString("TXT_GENERO"));
+                String marca = fn.ucFirst(rsProd.getString("TXT_MARCA"));
+                int qtdEstq = rsProd.getInt("QTD_ESTQ");
+                int qtdEstqMin = rsProd.getInt("QTD_MIN_ESTQ");
+                tabelaProdutos.addRow(new Object[]{cod,nome,tamanho,cor,preco,tipo,genero,marca,qtdEstq,qtdEstqMin});
+                
+                
+                jLabelTotal.setText(NumberFormat.getCurrencyInstance().format(preco));
+            }
+            
+            if(tabelaProdutos.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null,"Produto não encontrado!","Atenção", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(NovaVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String aux = jTextCodigo.getText();
         if(aux.equals("")){
             jSpinnerQtdProd.setEnabled(false);
             jTextValorDesconto.setEnabled(false);
