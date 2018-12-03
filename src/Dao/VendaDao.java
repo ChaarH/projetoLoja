@@ -66,4 +66,22 @@ public class VendaDao {
         
         JOptionPane.showMessageDialog(null,"Venda cadastrada com sucesso!!!!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    public ResultSet returnValorTotal(String dateBegin, String dateEnd) throws SQLException {
+        Functions fn = new Functions();
+        String dataHoje = fn.dataAtual();
+
+        Connection con = new Banco().getConnection();
+        String sql = "SELECT SUM(INT_TOTAL) AS SOMA_VENDAS FROM tb_vendas";
+
+        if (dateBegin != null && dateEnd != null) {
+            sql += " WHERE DAT_DATA_VENDA BETWEEN '" + dateBegin + "' AND '" + dateEnd + "'";
+        } else {
+            sql += " WHERE DAT_DATA_VENDA = '" + dataHoje + "'";
+        }
+
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        return rs;
+    }
 }
