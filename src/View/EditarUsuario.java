@@ -256,7 +256,7 @@ public class EditarUsuario extends javax.swing.JFrame {
             UsuarioId.setText(String.valueOf((rs.getInt("ID_USUARIO"))));
             Nome.setText(fn.ucFirst(rs.getString("TXT_NOME")));
             Login.setText((rs.getString("TXT_LOGIN")));
-            Tipo.setText(fn.ucFirst(rs.getString("TXT_TIPO")));
+            Tipo.setText(rs.getString("TXT_TIPO"));
             Senha.setText(rs.getString("TXT_SENHA"));
             
         }
