@@ -54,7 +54,6 @@ public class EditarUsuario extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1087, 756));
         setMinimumSize(new java.awt.Dimension(1087, 756));
-        setPreferredSize(new java.awt.Dimension(1087, 756));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMaximumSize(new java.awt.Dimension(1087, 756));
@@ -138,9 +137,9 @@ public class EditarUsuario extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addContainerGap(87, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,7 +255,7 @@ public class EditarUsuario extends javax.swing.JFrame {
             UsuarioId.setText(String.valueOf((rs.getInt("ID_USUARIO"))));
             Nome.setText(fn.ucFirst(rs.getString("TXT_NOME")));
             Login.setText((rs.getString("TXT_LOGIN")));
-            Tipo.setText(rs.getString("TXT_TIPO"));
+            Tipo.setText(fn.ucFirst(rs.getString("TXT_TIPO")));
             Senha.setText(rs.getString("TXT_SENHA"));
             
         }
