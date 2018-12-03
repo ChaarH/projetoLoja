@@ -1,11 +1,13 @@
+
 import Dao.ClienteDao;
 import Dao.FuncionariosDao;
 import Dao.ProdutoDao;
 import Dao.VendaDao;
+import Model.ContatoModel;
 import Model.FuncionariosModel;
-import Model.VendasModel;
 import View.EditarCliente;
 import View.EditarProduto;
+import View.EditarUsuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
@@ -18,19 +20,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lib.Functions;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
