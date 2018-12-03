@@ -21,6 +21,7 @@ public class NovoUsuario extends javax.swing.JFrame {
      */
     public NovoUsuario() {
         initComponents();
+        
     }
 
     /**
@@ -73,7 +74,6 @@ public class NovoUsuario extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1087, 756));
         setMinimumSize(new java.awt.Dimension(1087, 756));
-        setPreferredSize(new java.awt.Dimension(1087, 756));
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -338,32 +338,47 @@ public class NovoUsuario extends javax.swing.JFrame {
         String senha = jTextSenha.getText();
         String email = jTextEmail.getText();
         String tipoUsuario = jComboBoxTipoUsuario.getSelectedItem().toString();
+        int aux;
+        aux = 0;
         
         if(nome.equals("")){
             NomeVazio.setText("Campo Nome não pode estar vazio!");
-        }   
+        }
+        else{
+            aux = aux+1;
+        }
         
         if(login.equals("")){
             LoginVazio.setText("Campo Login não pode estar vazio!");
+        }else{
+            aux = aux+1;
         }
         
         if(senha.equals("")){
             SenhaVazio.setText("Campo senha não pode estar vazio!");
+        }else{
+            aux = aux+1;
         }
         
         if(email.equals("")){
             EmailVazio.setText("Campo e-mail não pode estar vazio!");
+        }else{
+            aux = aux+1;
         }
         
         if(tipoUsuario.equals("Selecione")){
             FuncaoVazio.setText("Selecione uma Função");
+        }else{
+            aux = aux+1;
         }
         
         FuncionariosControlle ctrl = new FuncionariosControlle();
+        if(aux == 5){
         try {
             ctrl.chkForm(nome,login,senha,email,tipoUsuario);
         } catch (SQLException ex) {
             Logger.getLogger(NovoUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }//GEN-LAST:event_jBtnSalvarUsuarioActionPerformed
 
