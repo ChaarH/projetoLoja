@@ -1261,6 +1261,177 @@ public class Início extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_DesativarUserActionPerformed
+    
+    
+    private void jBtnGerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+        Date dataInicio = jDateBegin.getDate();
+        Date dataFim = jDateEnd.getDate();
+
+        SimpleDateFormat formata = new SimpleDateFormat("yyyy/dd/MM");
+        String dateBegin, dateEnd;
+
+        if (dataInicio != null && dataFim != null) {
+            dateBegin = formata.format(dataInicio);
+            dateEnd = formata.format(dataFim);
+        } else {
+            dateBegin = null;
+            dateEnd = null;
+        }
+
+        if (dataInicio != null && dataFim != null) {
+            try {
+                gerarPDF(dateBegin, dateEnd);
+            } catch (SQLException | DocumentException | IOException ex) {
+                Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                gerarPDF(null, null);
+            } catch (SQLException | DocumentException | IOException ex) {
+                Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }                                                  
+
+    private void jBtnDeletarVendaActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        DefaultTableModel tabelaVendas = (DefaultTableModel) jTableVendas.getModel();
+
+        int row = jTableVendas.getSelectedRow();
+
+        int codProd = (int) tabelaVendas.getValueAt(row, 1);
+        int qtdProd = (int) tabelaVendas.getValueAt(row, 3);
+        int idVenda = (int) tabelaVendas.getValueAt(row, 0);
+
+        ProdutoDao objDao = new ProdutoDao();
+        try {
+            objDao.atualizaEstq("DELETAR", 0, qtdProd, codProd, idVenda);
+            tabelaVendas();
+        } catch (SQLException ex) {
+            Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }                                                
+
+    /**
+     *
+     * @throws SQLException
+     * @throws DocumentException
+     * @throws IOException
+     */
+    static void gerarPDF(String dateBegin, String dateEnd) throws SQLException, DocumentException, IOException {
+
+        String arquivoPDF = "Relatório de Vendas.pdf";
+        Document doc = new Document();
+
+        Functions fn = new Functions();
+
+        VendaDao objDao = new VendaDao();
+        ResultSet res;
+
+        ResultSet resTotal;
+
+        if (dateBegin != null && dateEnd != null) {
+            res = objDao.listar(dateBegin, dateEnd);
+        } else {
+            res = objDao.listar(null, null);
+        }
+
+        if (dateBegin != null && dateEnd != null) {
+            resTotal = objDao.returnValorTotal(dateBegin, dateEnd);
+        } else {
+            resTotal = objDao.returnValorTotal(null, null);
+        }
+
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(arquivoPDF));
+            doc.open();
+
+            Paragraph p = new Paragraph("Loja La Viana's");
+            p.setAlignment(1);
+            doc.add(p);
+
+            p = new Paragraph(" ");
+            doc.add(p);
+
+            p = new Paragraph("Relatório de Vendas " + fn.fData2BR(fn.dataAtual()));
+
+            if (dateBegin != null && dateEnd != null) {
+                p = new Paragraph("Relatório de Vendas entre os dias " + fn.fData2BR(dateBegin) + " e " + fn.fData2BR(dateEnd));
+            }
+
+            p.setAlignment(1);
+            doc.add(p);
+
+            p = new Paragraph(" ");
+            doc.add(p);
+
+            PdfPTable table = new PdfPTable(7);
+            table.setWidthPercentage(100);
+
+            PdfPCell cel1 = new PdfPCell(new Paragraph("Id Venda"));
+            PdfPCell cel2 = new PdfPCell(new Paragraph("Cód Produto"));
+            PdfPCell cel3 = new PdfPCell(new Paragraph("Vendedor"));
+            PdfPCell cel4 = new PdfPCell(new Paragraph("Quantidade"));
+            PdfPCell cel5 = new PdfPCell(new Paragraph("Desconto"));
+            PdfPCell cel6 = new PdfPCell(new Paragraph("Total"));
+            PdfPCell cel7 = new PdfPCell(new Paragraph("Data"));
+
+            table.addCell(cel1);
+            table.addCell(cel2);
+            table.addCell(cel3);
+            table.addCell(cel4);
+            table.addCell(cel5);
+            table.addCell(cel6);
+            table.addCell(cel7);
+
+            while (res.next()) {
+                cel1 = new PdfPCell(new Paragraph(res.getInt("ID_VENDA") + ""));
+                cel2 = new PdfPCell(new Paragraph(res.getInt("INT_COD_PROD") + ""));
+                cel3 = new PdfPCell(new Paragraph(res.getString("TXT_VENDEDOR")));
+                cel4 = new PdfPCell(new Paragraph(res.getInt("INT_QTD_VENDA") + ""));
+                cel5 = new PdfPCell(new Paragraph(res.getInt("INT_DESCONTO") + "%"));
+                cel6 = new PdfPCell(new Paragraph(NumberFormat.getCurrencyInstance().format(res.getDouble("INT_TOTAL"))));
+                cel7 = new PdfPCell(new Paragraph(fn.fData2BR(res.getString("DAT_DATA_VENDA"))));
+
+                if (dateBegin != null && dateEnd != null) {
+                    resTotal = objDao.returnValorTotal(dateBegin, dateEnd);
+                } else {
+                    resTotal = objDao.returnValorTotal(null, null);
+                }
+
+                table.addCell(cel1);
+                table.addCell(cel2);
+                table.addCell(cel3);
+                table.addCell(cel4);
+                table.addCell(cel5);
+                table.addCell(cel6);
+                table.addCell(cel7);
+            }
+
+            PdfPTable newTable = new PdfPTable(1);
+            newTable.setWidthPercentage(100);
+
+            PdfPCell cel8 = new PdfPCell(new Paragraph("Valor Total:"));
+            newTable.addCell(cel8);
+
+            while (resTotal.next()) {
+                cel8 = new PdfPCell(new Paragraph(NumberFormat.getCurrencyInstance().format(resTotal.getInt("SOMA_VENDAS"))));
+            }
+
+            newTable.addCell(cel8);
+
+            doc.add(table);
+
+            p = new Paragraph(" ");
+            doc.add(p);
+
+            doc.add(newTable);
+            doc.close();
+            Desktop.getDesktop().open(new File(arquivoPDF));
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Início.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
