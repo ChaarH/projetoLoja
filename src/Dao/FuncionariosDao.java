@@ -27,14 +27,14 @@ public class FuncionariosDao {
         
         Connection con = new Banco().getConnection();
         
-        String sql =  "INSERT INTO tb_usuarios (TXT_NOME,TXT_LOGIN,TXT_SENHA, TXT_EMAIL, TXT_TIPO) VALUES (?,?,?,?,?)";
+        String sql =  "INSERT INTO tb_usuarios (TXT_NOME,TXT_LOGIN,TXT_SENHA, TXT_TIPO, TXT_EMAIL) VALUES (?,?,?,?,?)";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setString(1, nome);
         stmt.setString(2, login);
         stmt.setString(3, senha);
-        stmt.setString(4, email);
-        stmt.setString(5, tipo);
+        stmt.setString(4, tipo);
+        stmt.setString(5, email);
         
         stmt.execute();
         stmt.close();
@@ -83,6 +83,18 @@ public class FuncionariosDao {
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
 
+        return rs;
+    }
+    
+    
+    public ResultSet pesquisar(String pesquisa) throws SQLException {
+        
+        Connection con = new Banco().getConnection();
+        
+        String sql = "SELECT * FROM tb_usuarios WHERE ID_USUARIO LIKE '%"+pesquisa+"%' OR TXT_NOME LIKE '%"+pesquisa+"%'";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        
         return rs;
     }
     
