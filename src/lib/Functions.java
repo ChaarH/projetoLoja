@@ -19,9 +19,18 @@ public class Functions {
     }
     
     public String dataAtual() {
-        
         Date data = new Date();
-        SimpleDateFormat formatar = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatar = new SimpleDateFormat("yyyy/dd/MM");
         return formatar.format(data);
+    }
+
+    public String fData2BR(String data) {
+        String dia, mes, ano;
+
+        ano = data.substring(0, 4);
+        dia = data.substring(5, 7);
+        mes = data.substring(8, 10);
+
+        return dia + "/" + mes + "/" + ano;
     }
 }
