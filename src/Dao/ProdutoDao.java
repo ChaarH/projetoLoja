@@ -144,18 +144,38 @@ public class ProdutoDao {
         return rs;
     }
     
-    public void atualizaEstq(int qtdInEstq, int qtdItens, int codProd) throws SQLException {
-        
-        int qtdAtualizada = (int) qtdInEstq - qtdItens;
-        
+    public void atualizaEstq(String tipoAcao, int qtdInEstq, int qtdItens, int codProd, int idVenda) throws SQLException {
+        int qtdAtualizada;
+        String sql = "UPDATE tb_produtos";
+
+        System.out.println("Id venda: " + idVenda);
+
         Connection con = new Banco().getConnection();
-        
-        String sql = "UPDATE tb_produtos SET QTD_ESTQ = (?) WHERE ID_PRODUTO = (?)";
+
+        if ("VENDA".equals(tipoAcao)) {
+            qtdAtualizada = qtdInEstq - qtdItens;
+            sql += " SET QTD_ESTQ = (?)";
+        } else {
+            qtdAtualizada = qtdItens;
+            sql += " SET QTD_ESTQ = QTD_ESTQ +(?)";
+        }
+
+        sql += " WHERE ID_PRODUTO = (?)";
         PreparedStatement stmt = con.prepareStatement(sql);
-        
+
         stmt.setInt(1, qtdAtualizada);
         stmt.setInt(2, codProd);
-        
+
+        if ("DELETAR".equals(tipoAcao)) {
+            String deleteVendasSQL = "DELETE FROM tb_vendas WHERE ID_VENDA = (?)";
+            PreparedStatement stmtSQL = con.prepareStatement(deleteVendasSQL);
+            stmtSQL.setInt(1, idVenda);
+
+            stmtSQL.execute();
+            stmtSQL.close();
+            JOptionPane.showMessageDialog(null, "Produto deletado com sucesso!!!!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
+
         stmt.execute();
         stmt.close();
     }
